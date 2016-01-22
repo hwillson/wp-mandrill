@@ -20,6 +20,26 @@ if (!function_exists('wp_mail')) {
 
   function wp_mail($to, $subject, $message, $headers = '') {
 
+    $atts = apply_filters(
+      'wp_mail', compact('to', 'subject', 'message', 'headers')
+    );
+
+    if (isset($atts['to'])) {
+      $to = $atts['to'];
+    }
+
+    if (isset($atts['subject'])) {
+      $subject = $atts['subject'];
+    }
+
+    if (isset($atts['message'])) {
+      $message = $atts['message'];
+    }
+
+    if (isset( $atts['headers'])) {
+      $headers = $atts['headers'];
+    }
+
     $mandrill = new Mandrill(MANDRILL_API_KEY);
     $mandrill_msg = array(
       'html' => $message,
